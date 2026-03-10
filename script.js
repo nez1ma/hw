@@ -3,16 +3,20 @@ let num2;
 
 while (true) {
     let input = prompt("Введіть перше число:");
-    if (input !== null && input.trim() !== "" && !isNaN(input)) {
-        num1 = Number(input);
+    let value = Number(input);
+
+    if (input && input.trim() !== "" && !isNaN(value)) {
+        num1 = value;
         break;
     }
 }
 
 while (true) {
     let input = prompt("Введіть друге число:");
-    if (input !== null && input.trim() !== "" && !isNaN(input)) {
-        num2 = Number(input);
+    let value = Number(input);
+
+    if (input && input.trim() !== "" && !isNaN(value)) {
+        num2 = value;
         break;
     }
 }
