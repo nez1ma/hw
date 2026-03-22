@@ -17,12 +17,10 @@ function Cat(breed, age, gender, color, name, photoUrl) {
 
     this.layDownToSleep = function() {
         this.isSleeping = true;
-        render(this);
     };
 
     this.wakeUp = function() {
         this.isSleeping = false;
-        render(this);
     };
 }
 
@@ -31,6 +29,8 @@ const cats = [
     new Cat("Сіамська", 2, "female", "Кремовий", "Сіма", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp54IGsKgW8Ev-pQdiXMmonDo9GoqAyehpcZBpCVWEbCxwmAMbpctqfhVC6VV08liLJPRXzuyyOj_Sc4qSpJiTAKmH6gA2dD3WWVO5ShE6&s=10.jpg"),
     new Cat("Мейн-кун", 4, "male", "Рудий", "Рижик", "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg")
 ];
+
+let currentCatIndex = 0;
 
 function render(cat) {
     const display = document.getElementById('cat-display');
@@ -45,11 +45,20 @@ function render(cat) {
             <li>Статус: ${cat.isSleeping ? 'спить' : 'не спить'}</li>
         </ul>
         <div class="actions">
-            <button onclick="handleAction('askForFood')">Попросити їсти</button>
-            <button onclick="handleAction('layDownToSleep')">Лягти спати</button>
-            <button onclick="handleAction('wakeUp')">Прокинутися</button>
+            <button id="btn-food">Попросити їсти</button>
+            <button id="btn-sleep">Лягти спати</button>
+            <button id="btn-wake">Прокинутися</button>
         </div>
     `;
+
+    document.getElementById('btn-food').addEventListener('click', () => handleAction('askForFood'));
+    document.getElementById('btn-sleep').addEventListener('click', () => handleAction('layDownToSleep'));
+    document.getElementById('btn-wake').addEventListener('click', () => handleAction('wakeUp'));
+}
+
+function handleAction(action) {
+    cats[currentCatIndex][action]();
+    render(cats[currentCatIndex]);
 }
 
 function createButtons() {
@@ -58,20 +67,14 @@ function createButtons() {
         const btn = document.createElement('button');
         btn.innerText = `Cat ${index + 1}`;
         btn.setAttribute('data-id', index);
-        btn.onclick = function() {
+        btn.addEventListener('click', function() {
             document.querySelectorAll('#controls button').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentCatIndex = index;
             render(cats[index]);
-        };
+        });
         controls.appendChild(btn);
     });
-}
-
-let currentCatIndex = 0;
-
-function handleAction(action) {
-    cats[currentCatIndex][action]();
 }
 
 createButtons();
