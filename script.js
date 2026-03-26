@@ -22,7 +22,7 @@ $(document).ready(function() {
 
     $('#fade-size').click(function() {
         if (!isExpanded) {
-            $box.stop().animate({
+            $box.stop().css('opacity', 0).animate({
                 width: '400px',
                 height: '400px',
                 opacity: 1
@@ -31,8 +31,10 @@ $(document).ready(function() {
             $box.stop().animate({
                 width: '50px',
                 height: '50px',
-                opacity: 1
-            }, 1000);
+                opacity: 0
+            }, 1000, function() {
+                $(this).css('opacity', 1);
+            });
         }
         isExpanded = !isExpanded;
     });
