@@ -1,41 +1,33 @@
 $(document).ready(function() {
-    $('#addHtmlt').html('<h1> New Element </h1>');
-    $('.to-hide').hide();
-    $('section').remove();
-    $('#target-div').addClass('addClass').text('Lumos Maxima');
+    $('#search-btn').click(function() {
+        const capital = $('#capital-input').val().trim();
+        const container = $('#result-container');
+        
+        container.empty();
 
-    const $box = $('#box');
-    let isExpanded = false;
-
-    $('#rect-move').click(function() {
-        $box.stop().animate({left: '+=200'}, 500)
-            .animate({top: '+=100'}, 500)
-            .animate({left: '-=200'}, 500)
-            .animate({top: '-=100'}, 500);
-    });
-
-    $('#tri-move').click(function() {
-        $box.stop().animate({left: '+=100', top: '-=173'}, 500)
-            .animate({left: '+=100', top: '+=173'}, 500)
-            .animate({left: '-=200'}, 500);
-    });
-
-    $('#fade-size').click(function() {
-        if (!isExpanded) {
-            $box.stop().css('opacity', 0).animate({
-                width: '400px',
-                height: '400px',
-                opacity: 1
-            }, 1000);
-        } else {
-            $box.stop().animate({
-                width: '50px',
-                height: '50px',
-                opacity: 0
-            }, 1000, function() {
-                $(this).css('opacity', 1);
-            });
+        if (capital === "") {
+            container.html('<p>Будь ласка, введіть столицю яку шукаєте</p>');
+            return;
         }
-        isExpanded = !isExpanded;
+
+        $.ajax({
+            url: `https://restcountries.com/v3.1/capital/${capital}`,
+            method: 'GET',
+            success: function(data) {
+                const country = data[0];
+                const flagUrl = country.flags.png;
+                const flagAlt = country.flags.alt || 'Прапор країни';
+
+                container.html(`
+                    <div class="country-info">
+                        <img src="${flagUrl}" alt="${flagAlt}">
+                        <p>${flagAlt}</p>
+                    </div>
+                `);
+            },
+            error: function() {
+                container.html('<p>Будь ласка, введіть столицю яку шукаєте</p>');
+            }
+        });
     });
 });
