@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    $('#search-btn').click(function() {
+$(function() {
+    $('#search-btn').on('click', function() {
         const capital = $('#capital-input').val().trim();
         const container = $('#result-container');
         
@@ -26,7 +26,7 @@ $(document).ready(function() {
                 `);
             },
             error: function() {
-                container.html('<p>Будь ласка, введіть столицю яку шукаєте</p>');
+                container.html('<p>Столицю не знайдено. Спробуйте ввести назву англійською (наприклад, Tirana).</p>');
             }
         });
     });
