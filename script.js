@@ -1,33 +1,43 @@
-$(function() {
-    $('#search-btn').on('click', function() {
-        const capital = $('#capital-input').val().trim();
-        const container = $('#result-container');
-        
-        container.empty();
+const form = document.getElementById('cookie-form');
 
-        if (capital === "") {
-            container.html('<p>Будь ласка, введіть столицю яку шукаєте</p>');
-            return;
-        }
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        $.ajax({
-            url: `https://restcountries.com/v3.1/capital/${capital}`,
-            method: 'GET',
-            success: function(data) {
-                const country = data[0];
-                const flagUrl = country.flags.png;
-                const flagAlt = country.flags.alt || 'Прапор країни';
+    const name = document.getElementById('name').value;
+    const age = document.getElementById('age').value;
+    const days = parseInt(document.getElementById('days').value);
 
-                container.html(`
-                    <div class="country-info">
-                        <img src="${flagUrl}" alt="${flagAlt}">
-                        <p>${flagAlt}</p>
-                    </div>
-                `);
-            },
-            error: function() {
-                container.html('<p>Столицю не знайдено. Спробуйте ввести назву англійською (наприклад, Tirana).</p>');
-            }
-        });
-    });
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+
+    document.cookie = `name=${name}; ${expires}; path=/`;
+    document.cookie = `age=${age}; ${expires}; path=/`;
+
+    location.reload();
 });
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+const savedName = getCookie("name");
+const savedAge = getCookie("age");
+
+if (savedName !== "" && savedAge !== "") {
+    document.write(`<h1>Збережені дані:</h1>`);
+    document.write(`<p>Ім'я: ${savedName}</p>`);
+    document.write(`<p>Вік: ${savedAge}</p>`);
+}

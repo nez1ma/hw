@@ -2,19 +2,18 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Пошук країни</title>
+    <title>Cookie HW</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="search-box">
-        <input type="text" id="capital-input" placeholder="Введіть столицю...">
-        <button id="search-btn">Пошук</button>
-    </div>
+    <form id="cookie-form">
+        <input type="text" id="name" placeholder="Ім'я" required>
+        <input type="number" id="age" placeholder="Вік" required>
+        <input type="number" id="days" placeholder="Дні зберігання куки" required>
+        <button type="submit">Встановити куки</button>
+    </form>
 
-    <div id="result-container"></div>
-
-    <script src="https://code.jquery.com/jquery-4.0.0-beta.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
