@@ -2,17 +2,23 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Cookie HW</title>
+    <title>localStorage</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <form id="cookie-form">
-        <input type="text" id="name" placeholder="Ім'я" required>
-        <input type="number" id="age" placeholder="Вік" required>
-        <input type="number" id="days" placeholder="Дні зберігання куки" required>
-        <button type="submit">Встановити куки</button>
-    </form>
+    <div class="container">
+        <h1>Контактна книга</h1>
+        
+        <form id="contact-form">
+            <input type="text" id="contact-name" placeholder="Ім'я контакту" required>
+            <input type="tel" id="contact-phone" placeholder="Номер телефону" required>
+            <input type="text" id="contact-id" placeholder="ID" required>
+            <button type="submit" id="add-btn">Додати</button>
+        </form>
+
+        <ul id="contact-list"></ul>
+    </div>
 
     <script src="script.js"></script>
 </body>

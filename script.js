@@ -1,43 +1,42 @@
-const form = document.getElementById('cookie-form');
+const form = document.querySelector('#contact-form');
+const contactList = document.querySelector('#contact-list');
 
-form.addEventListener('submit', function(e) {
+let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+renderContacts();
+
+form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const age = document.getElementById('age').value;
-    const days = parseInt(document.getElementById('days').value);
+    const newContact = {
+        name: document.querySelector('#contact-name').value,
+        phone: document.querySelector('#contact-phone').value,
+        id: document.querySelector('#contact-id').value
+    };
 
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + date.toUTCString();
-
-    document.cookie = `name=${name}; ${expires}; path=/`;
-    document.cookie = `age=${age}; ${expires}; path=/`;
-
-    location.reload();
+    contacts.push(newContact);
+    saveAndRender();
+    form.reset();
 });
 
-function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
+function saveAndRender() {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+    renderContacts();
 }
 
-const savedName = getCookie("name");
-const savedAge = getCookie("age");
+function renderContacts() {
+    contactList.innerHTML = '';
+    
+    contacts.forEach((contact, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span><strong>ID:</strong> ${contact.id} | <strong>${contact.name}</strong>: ${contact.phone}</span>
+            <button class="delete-btn" onclick="deleteContact(${index})">X</button>
+        `;
+        contactList.appendChild(li);
+    });
+}
 
-if (savedName !== "" && savedAge !== "") {
-    document.write(`<h1>Збережені дані:</h1>`);
-    document.write(`<p>Ім'я: ${savedName}</p>`);
-    document.write(`<p>Вік: ${savedAge}</p>`);
+function deleteContact(index) {
+    contacts.splice(index, 1);
+    saveAndRender();
 }
