@@ -7,10 +7,19 @@ renderContacts();
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    const inputId = document.querySelector('#contact-id').value;
+
+    const isDuplicate = contacts.some(contact => contact.id === inputId);
+
+    if (isDuplicate) {
+        alert('Цей ID вже існує. введіть унікальний номер');
+        return;
+    }
+
     const newContact = {
         name: document.querySelector('#contact-name').value,
         phone: document.querySelector('#contact-phone').value,
-        id: document.querySelector('#contact-id').value
+        id: inputId
     };
 
     contacts.push(newContact);
